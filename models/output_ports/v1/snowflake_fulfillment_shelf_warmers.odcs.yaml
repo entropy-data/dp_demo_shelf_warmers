@@ -1,60 +1,57 @@
-apiVersion: v3.1.0
-kind: DataContract
-id: snowflake_fulfillment_shelf_warmers
-name: Shelf Warmers
-version: 1.0.0
-status: active
+apiVersion: "v3.1.0"
+kind: "DataContract"
+id: "snowflake_fulfillment_shelf_warmers"
+name: "Shelf Warmers"
+version: "1.0.0"
+status: "active"
 description:
-  purpose: A list of in-stock articles with no sales in last 6 months
+  purpose: "A list of in-stock articles with no sales in last 6 months"
 team:
-  name: fulfillment
+  name: "fulfillment"
 schema:
-- name: SHELF_WARMERS
-  physicalType: table
-  businessName: Shelf Warmers
-  description: Shelf warmers are articles in stock that have not been sold in the
-    last 6 months
+- name: "SHELF_WARMERS"
+  physicalType: "table"
+  businessName: "Shelf Warmers"
+  description: "Shelf warmers are articles in stock that have not been sold in the last 6 months"
   properties:
-  - name: SKU
-    logicalType: string
-    physicalType: VARCHAR
+  - name: "SKU"
+    logicalType: "string"
+    physicalType: "VARCHAR"
     required: true
     primaryKey: true
-    description: Stock keeping unit.
+    description: "Stock keeping unit."
     authoritativeDefinitions:
-    - type: semantics
-      url: http://www.entropy-data.com/ns/main/sku
-  - name: ARTICLE_NAME
-    logicalType: string
-    physicalType: VARCHAR
+    - type: "semantics"
+      url: "http://www.entropy-data.com/ns/main/sku"
+  - name: "ARTICLE_NAME"
+    logicalType: "string"
+    physicalType: "VARCHAR"
     required: false
-    description: Display name of the article.
-  - name: LAST_SALE_TIMESTAMP
-    logicalType: timestamp
-    physicalType: TIMESTAMP_TZ
+    description: "Display name of the article."
+  - name: "LAST_SALE_TIMESTAMP"
+    logicalType: "timestamp"
+    physicalType: "TIMESTAMP_TZ"
     required: false
-    description: The timestamp of the last negative stock update event for this article.
-      Used as a proxy for the last sale. May include non-sale events such as write-offs,
-      transfers, or corrections. Null if the article has never had a recorded sale.
-  - name: PROCESSING_TIMESTAMP
-    logicalType: timestamp
-    physicalType: TIMESTAMP_TZ
+    description: "The timestamp of the last negative stock update event for this article. Used as a proxy for the last sale. May include non-sale events such as write-offs, transfers, or corrections. Null if the article has never had a recorded sale."
+  - name: "PROCESSING_TIMESTAMP"
+    logicalType: "timestamp"
+    physicalType: "TIMESTAMP_TZ"
     required: true
-    description: When this row was written by dbt.
+    description: "When this row was written by dbt."
     authoritativeDefinitions:
-    - type: semantics
-      url: http://www.entropy-data.com/ns/main/processedTimestamp
+    - type: "semantics"
+      url: "http://www.entropy-data.com/ns/main/processedTimestamp"
 slaProperties:
-- property: freshness
-  value: 25h
-  element: SHELF_WARMERS.PROCESSING_TIMESTAMP
-  description: PROCESSING_TIMESTAMP is no older than 25 hours.
-- property: frequency
-  value: daily
-  description: Data is refreshed once a day.
+- property: "freshness"
+  value: "25h"
+  element: "SHELF_WARMERS.PROCESSING_TIMESTAMP"
+  description: "PROCESSING_TIMESTAMP is no older than 25 hours."
+- property: "frequency"
+  value: "daily"
+  description: "Data is refreshed once a day."
 servers:
-- server: snowflake
-  type: snowflake
-  account: LMTRWXS-XN14859
-  database: DP_SHELF_WARMERS
-  schema: OP_SHELF_WARMERS_V1
+- server: "snowflake"
+  type: "snowflake"
+  account: "LMTRWXS-XN14859"
+  database: "DP_SHELF_WARMERS"
+  schema: "OP_SHELF_WARMERS_V1"
