@@ -19,6 +19,8 @@ schema:
     logicalType: string
     physicalType: VARCHAR
     required: true
+    primaryKey: true
+    description: Stock keeping unit.
     authoritativeDefinitions:
     - type: semantics
       url: http://www.entropy-data.com/ns/main/sku
@@ -26,6 +28,7 @@ schema:
     logicalType: string
     physicalType: VARCHAR
     required: false
+    description: Display name of the article.
   - name: LAST_SALE_TIMESTAMP
     logicalType: timestamp
     physicalType: TIMESTAMP_TZ
@@ -37,6 +40,7 @@ schema:
     logicalType: timestamp
     physicalType: TIMESTAMP_TZ
     required: true
+    description: When this row was written by dbt.
     authoritativeDefinitions:
     - type: semantics
       url: http://www.entropy-data.com/ns/main/processedTimestamp
