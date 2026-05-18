@@ -21,7 +21,7 @@ schema:
     required: true
     authoritativeDefinitions:
     - type: semantics
-      url: https://demo.entropy-data.com/demo667906049260/semantics/main/sku
+      url: http://www.entropy-data.com/ns/main/sku
   - name: ARTICLE_NAME
     logicalType: string
     physicalType: VARCHAR
@@ -39,7 +39,7 @@ schema:
     required: true
     authoritativeDefinitions:
     - type: semantics
-      url: https://demo.entropy-data.com/demo667906049260/semantics/main/processed_timestamp
+      url: http://www.entropy-data.com/ns/main/processedTimestamp
 slaProperties:
 - property: freshness
   value: 25h
