@@ -1,0 +1,64 @@
+apiVersion: v3.1.0
+kind: DataContract
+id: snowflake_fulfillment_stock_update_events
+name: Stock Updates
+version: 1.0.0
+status: active
+description:
+  purpose: All stock updates since 2020
+  usage: Max. 10x queries per day
+  limitations: Not suitable for real-time use cases
+team:
+  name: fulfillment
+  members:
+  - username: ollie.blessing@entropy-demo.com
+    name: Ollie Blessing
+    role: contact
+price:
+  priceAmount: 1000
+  priceCurrency: USD
+  priceUnit: month
+customProperties:
+- property: noticePeriod
+  value: P3M
+servers:
+- server: snowflake
+  type: snowflake
+  account: LMTRWXS-XN14859
+  database: DP_STOCK_UPDATE_EVENTS
+  schema: OP_STOCK_UPDATE_EVENTS_V1
+schema:
+- name: STOCK_UPDATES
+  physicalType: table
+  businessName: Stock Updates
+  description: All updates to the stock
+  properties:
+  - name: SKU
+    logicalType: string
+    required: true
+    authoritativeDefinitions:
+    - type: semantics
+      url: https://demo.entropy-data.com/demo667906049260/semantics/main/sku
+  - name: LOCATION
+    logicalType: string
+    physicalType: text
+    description: The location where the stock is stored
+    required: true
+  - name: AMOUNT
+    logicalType: integer
+    description: The number of items in stock
+    required: true
+    logicalTypeOptions:
+      minimum: 0
+  - name: TIMESTAMP
+    logicalType: timestamp
+    required: true
+    authoritativeDefinitions:
+    - type: semantics
+      url: https://demo.entropy-data.com/demo667906049260/semantics/main/actual_timestamp
+  - name: PROCESSING_TIMESTAMP
+    logicalType: timestamp
+    required: true
+    authoritativeDefinitions:
+    - type: semantics
+      url: https://demo.entropy-data.com/demo667906049260/semantics/main/processed_timestamp

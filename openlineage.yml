@@ -1,0 +1,6 @@
+transport:
+  type: http
+  url: https://demo.entropy-data.com
+  endpoint: api/v1/lineage?dataProductId=shelf-warmers&outputPortId=snowflake_fulfillment_shelf_warmers
+  auth:
+    type: api_key

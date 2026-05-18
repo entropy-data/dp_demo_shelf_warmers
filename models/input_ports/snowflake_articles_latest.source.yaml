@@ -1,0 +1,31 @@
+version: 2
+sources:
+  - name: articles-latest_snowflake_articles_latest
+    database: DP_ARTICLES_LATEST
+    schema: OP_ARTICLES_LATEST_V1
+    meta:
+      data_contract:
+        id: snowflake_articles_latest
+        file: models/input_ports/snowflake_articles_latest.odcs.yaml
+    tables:
+      - name: ARTICLES
+        description: Current state of all articles.
+        columns:
+          - name: SKU
+            description: Stock keeping unit (primary key).
+            data_type: varchar
+          - name: NAME
+            description: The name of the article.
+            data_type: varchar
+          - name: COLOR
+            description: The color of the article.
+            data_type: varchar
+          - name: BRAND_NAME
+            description: The brand of the article.
+            data_type: varchar
+          - name: LAST_UPDATED_TIMESTAMP
+            description: When this article was last updated upstream.
+            data_type: timestamp_ntz
+          - name: PROCESS_TIMESTAMP
+            description: When this article record was processed.
+            data_type: timestamp_ntz

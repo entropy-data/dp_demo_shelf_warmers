@@ -1,0 +1,13 @@
+shelf_warmers:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: <fill in>
+      user: <fill in>
+      password: <fill in>
+      role: <fill in>
+      database: DP_SHELF_WARMERS
+      warehouse: <fill in>
+      schema: OP_SHELF_WARMERS_V1
+      threads: 4

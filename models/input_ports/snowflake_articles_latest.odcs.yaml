@@ -1,0 +1,73 @@
+apiVersion: v3.1.0
+kind: DataContract
+id: snowflake_articles_latest
+name: Articles
+version: 1.0.0
+status: active
+description:
+  purpose: Current state of all articles
+  usage: Max. 10x queries per day
+  limitations: Not suitable for real-time use cases
+team:
+  name: products
+  members:
+  - username: gordie.stuart@demoTHTvoRKjjhGo8CmVLjE3f.datamesh-manager.com
+    name: Gordie Stuart
+    role: contact
+price:
+  priceAmount: 1000
+  priceCurrency: USD
+  priceUnit: month
+customProperties:
+- property: noticePeriod
+  value: P3M
+servers:
+- server: snowflake
+  type: snowflake
+  account: LMTRWXS-XN14859
+  database: DP_ARTICLES_LATEST
+  schema: OP_ARTICLES_LATEST_V1
+schema:
+- name: ARTICLES
+  physicalType: table
+  businessName: Articles
+  description: Articles
+  properties:
+  - name: SKU
+    logicalType: string
+    required: true
+    primaryKey: true
+    unique: true
+    authoritativeDefinitions:
+    - type: semantics
+      url: https://demo.entropy-data.com/demo667906049260/semantics/main/sku
+  - name: NAME
+    logicalType: string
+    physicalType: text
+    description: The name of the article
+    tags:
+    - pii:false
+  - name: COLOR
+    logicalType: string
+    physicalType: text
+    description: The color of the article
+    tags:
+    - pii:false
+  - name: BRAND_NAME
+    logicalType: string
+    physicalType: text
+    description: The brand of the article
+    tags:
+    - pii:false
+  - name: LAST_UPDATED_TIMESTAMP
+    logicalType: timestamp
+    required: true
+    authoritativeDefinitions:
+    - type: semantics
+      url: https://demo.entropy-data.com/demo667906049260/semantics/main/actual_timestamp
+  - name: PROCESS_TIMESTAMP
+    logicalType: timestamp
+    required: true
+    authoritativeDefinitions:
+    - type: semantics
+      url: https://demo.entropy-data.com/demo667906049260/semantics/main/processed_timestamp
