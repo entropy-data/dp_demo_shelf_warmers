@@ -38,9 +38,9 @@ outputPorts:
 support:
 - channel: "#data-product-shelf-warmers"
   url: "https://acme.slack.com/channels/data-product-shelf-warmers"
+  description: "Ask the Fulfillment team about slow-moving inventory data or request custom filtering criteria."
   tool: "slack"
   scope: "interactive"
-  description: "Ask the Fulfillment team about slow-moving inventory data or request custom filtering criteria."
 authoritativeDefinitions:
 - type: "semantics"
   url: "http://www.entropy-data.com/ns/main/Article"
