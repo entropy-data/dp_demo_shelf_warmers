@@ -9,7 +9,7 @@ Source: <https://github.com/entropy-data/dp_demo_shelf_warmers>
 ```bash
 uv venv
 source .venv/bin/activate
-uv pip install dbt-core dbt-snowflake openlineage-dbt datacontract-cli entropy-data
+uv pip install dbt-core dbt-snowflake openlineage-dbt 'datacontract-cli[snowflake]' entropy-data
 ```
 
 ## Configure
@@ -37,7 +37,8 @@ export DATACONTRACT_SNOWFLAKE_WAREHOUSE=<your-snowflake-warehouse>
 source .venv/bin/activate
 dbt-ol run    # runs dbt and ships OpenLineage to Entropy Data
 dbt test
-datacontract test models/output_ports/v1/snowflake_fulfillment_shelf_warmers.odcs.yaml --server production --logs
+CONTRACT=models/output_ports/v1/snowflake_fulfillment_shelf_warmers.odcs.yaml
+datacontract test "$CONTRACT" --server "$(yq '.servers[0].server' "$CONTRACT")" --logs
 ```
 
 ## Layout
