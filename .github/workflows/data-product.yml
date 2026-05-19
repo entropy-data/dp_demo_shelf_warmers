@@ -73,8 +73,9 @@ jobs:
 
       - name: Data contract test
         run: |
-          datacontract test models/output_ports/v1/snowflake_fulfillment_shelf_warmers.odcs.yaml \
-            --server production \
+          CONTRACT=models/output_ports/v1/snowflake_fulfillment_shelf_warmers.odcs.yaml
+          datacontract test "$CONTRACT" \
+            --server "$(yq '.servers[0].server' "$CONTRACT")" \
             --publish $API/test-results
         env:
           ENTROPY_DATA_API_KEY: ${{ secrets.ENTROPY_DATA_API_KEY }}
