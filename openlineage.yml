@@ -1,6 +1,9 @@
+# The transport URL is intentionally omitted: it's set at run time via the
+# OPENLINEAGE__TRANSPORT__URL env var, derived from the active entropy-data
+# connection. That way this repo runs correctly against any deployment
+# (cloud, self-hosted, local) without this file drifting.
 transport:
   type: http
-  url: https://demo.entropy-data.com
   endpoint: api/v1/lineage?dataProductId=shelf-warmers&outputPortId=snowflake_fulfillment_shelf_warmers
   auth:
     type: api_key

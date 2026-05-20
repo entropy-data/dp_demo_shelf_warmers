@@ -16,9 +16,10 @@ uv pip install dbt-core dbt-snowflake openlineage-dbt 'datacontract-cli[snowflak
 
 Copy `profiles.yml.example` to `~/.dbt/profiles.yml` (or merge it in) and fill in your Snowflake credentials.
 
-Set the Entropy Data API key for OpenLineage transport:
+Set the Entropy Data host and API key for OpenLineage transport. `openlineage.yml` intentionally omits the URL so this repo works against any deployment (cloud, self-hosted, local) — these env vars are the source of truth:
 
 ```bash
+export OPENLINEAGE__TRANSPORT__URL=<your-entropy-data-host>          # e.g. https://demo.entropy-data.com
 export OPENLINEAGE__TRANSPORT__AUTH__APIKEY=<your-entropy-data-api-key>
 ```
 
