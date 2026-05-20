@@ -1,4 +1,4 @@
-shelf_warmers:
+dp_shelf_warmers:
   target: dev
   outputs:
     dev:
@@ -9,5 +9,9 @@ shelf_warmers:
       role: <fill in>
       database: DP_SHELF_WARMERS
       warehouse: <fill in>
-      schema: OP_SHELF_WARMERS_V1
+      # Profile schema is the internal layer (staging, intermediate). The output
+      # port model overrides this via config(schema='op_v1'), landing in
+      # DP_SHELF_WARMERS_OP_V1 — the only schema the data contract / integration
+      # scan target.
+      schema: dp_shelf_warmers
       threads: 4

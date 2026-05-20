@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           cat > ~/.dbt/profiles.yml <<EOF
-          shelf_warmers:
+          dp_shelf_warmers:
             target: prod
             outputs:
               prod:
@@ -46,7 +46,7 @@ jobs:
                 role: ${DBT_SNOWFLAKE_ROLE}
                 warehouse: ${DBT_SNOWFLAKE_WAREHOUSE}
                 database: DP_SHELF_WARMERS
-                schema: OP_SHELF_WARMERS_V1
+                schema: dp_shelf_warmers
                 threads: 4
           EOF
 

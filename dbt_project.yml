@@ -1,7 +1,7 @@
-name: 'shelf_warmers'
+name: 'dp_shelf_warmers'
 version: '1.0.0'
 
-profile: 'shelf_warmers'
+profile: 'dp_shelf_warmers'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -14,9 +14,12 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
+# Schema layout follows https://www.entropy-data.com/learn/data-products-with-dbt :
+# staging and intermediate models stay in the profile's default schema (internal
+# to the data product); output port models override schema='op_v1' via inline
+# config(), landing in <profile_schema>_op_v1 — the only public surface.
 models:
-  shelf_warmers:
-    +materialized: table
+  dp_shelf_warmers:
     staging:
       +materialized: view
     intermediate:

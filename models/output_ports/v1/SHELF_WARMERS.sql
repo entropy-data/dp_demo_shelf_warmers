@@ -1,3 +1,5 @@
+{{ config(materialized='table', schema='op_v1') }}
+
 -- Governed by snowflake_fulfillment_shelf_warmers.odcs.yaml (ODCS id: snowflake_fulfillment_shelf_warmers)
 --
 -- STOCK_UPDATES records stock-level snapshots per (SKU, LOCATION, TIMESTAMP). AMOUNT is
@@ -53,7 +55,8 @@ select
     cast(articles.SKU              as varchar)      as SKU,
     cast(articles.NAME             as varchar)      as ARTICLE_NAME,
     cast(ls.last_sale_ts           as timestamp_tz) as LAST_SALE_TIMESTAMP,
-    cast(current_timestamp()       as timestamp_tz) as PROCESSING_TIMESTAMP
+    cast(current_timestamp()       as timestamp_tz) as PROCESSING_TIMESTAMP,
+    cast(articles.BRAND_NAME       as varchar)      as BRAND
 from {{ source('articles-latest_snowflake_articles_latest', 'ARTICLES') }} as articles
 join current_stock_per_sku as cs on cs.SKU = articles.SKU
 left join last_sale_per_sku as ls on ls.SKU = articles.SKU
