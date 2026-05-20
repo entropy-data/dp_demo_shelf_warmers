@@ -9,12 +9,12 @@ description:
 team:
   name: fulfillment
 schema:
-  - name: shelf_warmers
+  - name: SHELF_WARMERS
     physicalType: table
     businessName: Shelf Warmers
     description: Shelf warmers are articles in stock that have not been sold in the last 6 months
     properties:
-      - name: sku
+      - name: SKU
         logicalType: string
         physicalType: VARCHAR
         required: true
@@ -23,17 +23,17 @@ schema:
         authoritativeDefinitions:
           - type: semantics
             url: http://www.entropy-data.com/ns/main/sku
-      - name: article_name
+      - name: ARTICLE_NAME
         logicalType: string
         physicalType: VARCHAR
         required: false
         description: Display name of the article.
-      - name: last_sale_timestamp
+      - name: LAST_SALE_TIMESTAMP
         logicalType: timestamp
         physicalType: TIMESTAMP_TZ
         required: false
         description: The timestamp of the last negative stock update event for this article. Used as a proxy for the last sale. May include non-sale events such as write-offs, transfers, or corrections. Null if the article has never had a recorded sale.
-      - name: processing_timestamp
+      - name: PROCESSING_TIMESTAMP
         logicalType: timestamp
         physicalType: TIMESTAMP_TZ
         required: true
@@ -44,7 +44,7 @@ schema:
 slaProperties:
   - property: freshness
     value: 25h
-    element: shelf_warmers.processing_timestamp
+    element: SHELF_WARMERS.PROCESSING_TIMESTAMP
     description: PROCESSING_TIMESTAMP is no older than 25 hours.
   - property: frequency
     value: daily
