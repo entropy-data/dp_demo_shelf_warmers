@@ -41,11 +41,6 @@ schema:
     authoritativeDefinitions:
     - type: semantics
       url: http://www.entropy-data.com/ns/main/processedTimestamp
-  - name: brand
-    authoritativeDefinitions:
-    - type: semantics
-      url: http://localhost:8080/demo755264162833/semantics/main/product.brand
-    physicalName: BRAND
 slaProperties:
 - property: freshness
   value: 25h

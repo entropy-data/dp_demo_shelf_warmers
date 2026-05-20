@@ -55,8 +55,7 @@ select
     cast(articles.SKU              as varchar)      as SKU,
     cast(articles.NAME             as varchar)      as ARTICLE_NAME,
     cast(ls.last_sale_ts           as timestamp_tz) as LAST_SALE_TIMESTAMP,
-    cast(current_timestamp()       as timestamp_tz) as PROCESSING_TIMESTAMP,
-    cast(articles.BRAND_NAME       as varchar)      as BRAND
+    cast(current_timestamp()       as timestamp_tz) as PROCESSING_TIMESTAMP
 from {{ source('articles-latest_snowflake_articles_latest', 'ARTICLES') }} as articles
 join current_stock_per_sku as cs on cs.SKU = articles.SKU
 left join last_sale_per_sku as ls on ls.SKU = articles.SKU
