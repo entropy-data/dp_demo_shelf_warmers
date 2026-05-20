@@ -8,23 +8,25 @@ models:
         data_contract:
           id: shelf-warmers-v1
           file: datacontracts/shelf_warmers_v1.odcs.yaml
+        owner: fulfillment
+      materialized: table
       contract:
         enforced: true
     columns:
       - name: sku
         description: Stock keeping unit.
-        data_type: varchar
+        data_type: VARCHAR
         constraints:
           - type: not_null
           - type: unique
       - name: article_name
         description: Display name of the article.
-        data_type: varchar
+        data_type: VARCHAR
       - name: last_sale_timestamp
         description: Timestamp of the last negative stock update event for this article. Used as a proxy for the last sale.
-        data_type: timestamp_tz
+        data_type: TIMESTAMP_TZ
       - name: processing_timestamp
         description: When this row was written by dbt.
-        data_type: timestamp_tz
+        data_type: TIMESTAMP_TZ
         constraints:
           - type: not_null
