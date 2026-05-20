@@ -4,6 +4,6 @@
 # (cloud, self-hosted, local) without this file drifting.
 transport:
   type: http
-  endpoint: api/v1/lineage?dataProductId=shelf-warmers&outputPortId=snowflake_fulfillment_shelf_warmers
+  endpoint: api/v1/lineage?dataProductId=shelf-warmers&outputPortId=shelf-warmers-v1
   auth:
     type: api_key

@@ -12,11 +12,11 @@ tags:
 - "demo"
 - "platform/snowflake"
 outputPorts:
-- name: "snowflake_fulfillment_shelf_warmers"
+- name: "shelf-warmers-v1"
   version: "1"
   description: "A list of articles with no sales in last 6 months"
   type: "snowflake"
-  contractId: "snowflake_fulfillment_shelf_warmers"
+  contractId: "shelf-warmers-v1"
   authoritativeDefinitions:
   - type: "Snowflake WebUI"
     url: "https://example.com"
@@ -24,7 +24,7 @@ outputPorts:
   - property: "displayName"
     value: "Shelf Warmers Snowflake v1"
   - property: "platformRole"
-    value: "op_shelf_warmers_snowflake_fulfillment_shelf_warmers_role"
+    value: "op_shelf_warmers_v1_role"
   - property: "status"
     value: "active"
   - property: "autoApprove"
@@ -32,7 +32,7 @@ outputPorts:
   - property: "containsPii"
     value: false
   - property: "contractServer"
-    value: "snowflake"
+    value: "production"
   - property: "environment"
     value: "prod"
 support:

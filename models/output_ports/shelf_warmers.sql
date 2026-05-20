@@ -1,6 +1,6 @@
 {{ config(materialized='table', schema='op_v1') }}
 
--- Governed by snowflake_fulfillment_shelf_warmers.odcs.yaml (ODCS id: snowflake_fulfillment_shelf_warmers)
+-- Governed by datacontracts/shelf_warmers_v1.odcs.yaml (ODCS id: shelf-warmers-v1)
 --
 -- STOCK_UPDATES records stock-level snapshots per (SKU, LOCATION, TIMESTAMP). AMOUNT is
 -- always non-negative (contract: minimum 0), so a "sale" is inferred as an event whose
@@ -12,7 +12,7 @@
 
 with stock_events as (
     select SKU, LOCATION, AMOUNT, TIMESTAMP
-    from {{ source('stock-update-events_snowflake_fulfillment_stock_update_events', 'STOCK_UPDATES') }}
+    from {{ source('stock_update_events', 'STOCK_UPDATES') }}
 ),
 
 with_prev_amount as (
@@ -52,11 +52,11 @@ current_stock_per_sku as (
 )
 
 select
-    cast(articles.SKU              as varchar)      as SKU,
-    cast(articles.NAME             as varchar)      as ARTICLE_NAME,
-    cast(ls.last_sale_ts           as timestamp_tz) as LAST_SALE_TIMESTAMP,
-    cast(current_timestamp()       as timestamp_tz) as PROCESSING_TIMESTAMP
-from {{ source('articles-latest_snowflake_articles_latest', 'ARTICLES') }} as articles
+    cast(articles.SKU              as varchar)      as sku,
+    cast(articles.NAME             as varchar)      as article_name,
+    cast(ls.last_sale_ts           as timestamp_tz) as last_sale_timestamp,
+    cast(current_timestamp()       as timestamp_tz) as processing_timestamp
+from {{ source('articles_latest', 'ARTICLES') }} as articles
 join current_stock_per_sku as cs on cs.SKU = articles.SKU
 left join last_sale_per_sku as ls on ls.SKU = articles.SKU
 where cs.current_stock > 0

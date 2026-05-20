@@ -68,15 +68,14 @@ jobs:
           ENTROPY_DATA_API_KEY: ${{ secrets.ENTROPY_DATA_API_KEY }}
 
       - name: Publish data contract
-        run: entropy-data datacontracts put snowflake_fulfillment_shelf_warmers --file models/output_ports/v1/snowflake_fulfillment_shelf_warmers.odcs.yaml
+        run: entropy-data datacontracts put shelf-warmers-v1 --file datacontracts/shelf_warmers_v1.odcs.yaml
         env:
           ENTROPY_DATA_API_KEY: ${{ secrets.ENTROPY_DATA_API_KEY }}
 
       - name: Data contract test
         run: |
-          CONTRACT=models/output_ports/v1/snowflake_fulfillment_shelf_warmers.odcs.yaml
-          datacontract test "$CONTRACT" \
-            --server "$(yq '.servers[0].server' "$CONTRACT")" \
+          datacontract test datacontracts/shelf_warmers_v1.odcs.yaml \
+            --server production \
             --publish $API/test-results
         env:
           ENTROPY_DATA_API_KEY: ${{ secrets.ENTROPY_DATA_API_KEY }}
