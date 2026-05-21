@@ -68,13 +68,13 @@ jobs:
           ENTROPY_DATA_API_KEY: ${{ secrets.ENTROPY_DATA_API_KEY }}
 
       - name: Publish data contract
-        run: entropy-data datacontracts put shelf-warmers-v1 --file datacontracts/shelf_warmers_v1.odcs.yaml
+        run: entropy-data datacontracts put shelf-warmers-v1 --file models/output_ports/v1/shelf-warmers-v1.odcs.yaml
         env:
           ENTROPY_DATA_API_KEY: ${{ secrets.ENTROPY_DATA_API_KEY }}
 
       - name: Data contract test
         run: |
-          datacontract test datacontracts/shelf_warmers_v1.odcs.yaml \
+          datacontract test models/output_ports/v1/shelf-warmers-v1.odcs.yaml \
             --server production \
             --publish $API/test-results
         env:

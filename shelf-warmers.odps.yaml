@@ -58,14 +58,14 @@ customProperties:
 - property: "keywords"
   value: "slow movers, dead stock, unsold inventory, warehouse, clearance, no sales, inventory optimization, fulfillment"
 - property: "aiInstructions"
-  value: "Shelf warmers are articles in stock that have not been sold in the last 6 months. The data is refreshed daily. The table is DP_SHELF_WARMERS.DP_SHELF_WARMERS_OP_V1.SHELF_WARMERS with columns SKU, ARTICLE_NAME, LAST_SALE_TIMESTAMP, PROCESSING_TIMESTAMP. LAST_SALE_TIMESTAMP is NULL for articles that have never had a recorded sale."
+  value: "Shelf warmers are articles in stock that have not been sold in the last 6 months. The data is refreshed daily. The table is DP_SHELF_WARMERS.OP_SHELF_WARMERS_V1.SHELF_WARMERS with columns SKU, ARTICLE_NAME, LAST_SALE_TIMESTAMP, PROCESSING_TIMESTAMP. LAST_SALE_TIMESTAMP is NULL for articles that have never had a recorded sale."
 - property: "aiExamples"
   value: |
     Q: How many shelf warmers do we currently have?
-    SELECT COUNT(*) AS shelf_warmer_count FROM DP_SHELF_WARMERS.DP_SHELF_WARMERS_OP_V1.SHELF_WARMERS;
+    SELECT COUNT(*) AS shelf_warmer_count FROM DP_SHELF_WARMERS.OP_SHELF_WARMERS_V1.SHELF_WARMERS;
 
     Q: Which shelf warmers have never been sold?
-    SELECT SKU, ARTICLE_NAME FROM DP_SHELF_WARMERS.DP_SHELF_WARMERS_OP_V1.SHELF_WARMERS WHERE LAST_SALE_TIMESTAMP IS NULL;
+    SELECT SKU, ARTICLE_NAME FROM DP_SHELF_WARMERS.OP_SHELF_WARMERS_V1.SHELF_WARMERS WHERE LAST_SALE_TIMESTAMP IS NULL;
 
     Q: What are the shelf warmers with the most recent past sale?
-    SELECT SKU, ARTICLE_NAME, LAST_SALE_TIMESTAMP FROM DP_SHELF_WARMERS.DP_SHELF_WARMERS_OP_V1.SHELF_WARMERS WHERE LAST_SALE_TIMESTAMP IS NOT NULL ORDER BY LAST_SALE_TIMESTAMP DESC LIMIT 20;
+    SELECT SKU, ARTICLE_NAME, LAST_SALE_TIMESTAMP FROM DP_SHELF_WARMERS.OP_SHELF_WARMERS_V1.SHELF_WARMERS WHERE LAST_SALE_TIMESTAMP IS NOT NULL ORDER BY LAST_SALE_TIMESTAMP DESC LIMIT 20;

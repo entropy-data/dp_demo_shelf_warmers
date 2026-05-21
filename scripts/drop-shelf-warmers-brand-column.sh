@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # Drop the BRAND column from the Snowflake output-port table:
 #
-#   DP_SHELF_WARMERS.DP_SHELF_WARMERS_OP_V1.SHELF_WARMERS
+#   DP_SHELF_WARMERS.OP_SHELF_WARMERS_V1.SHELF_WARMERS
 #
 # BRAND is not part of the ODCS contract
-# (datacontracts/shelf_warmers_v1.odcs.yaml) and a stray lowercase `brand` has
-# been making `datacontract test` fail. This drops the physical column so the
-# table matches the contract again.
+# (models/output_ports/v1/shelf-warmers-v1.odcs.yaml) and a stray lowercase
+# `brand` has been making `datacontract test` fail. This drops the physical
+# column so the table matches the contract again.
 #
 # Credentials are read from the dbt `dp_shelf_warmers` profile
 # (~/.dbt/profiles.yml, target `dev`). The fully-qualified output-port table
 # (database + schema) is read from the data contract's servers[0] so the
 # script keeps working when the dbt profile schema (the internal layer) and
-# the output-port schema diverge (per the guide-aligned schema='op_v1' override).
+# the output-port schema diverge (per the schema='op_v1' override).
 #
 # Usage:
 #   scripts/drop-shelf-warmers-brand-column.sh        # prompts for confirmation
@@ -24,7 +24,7 @@ ASSUME_YES=0
 
 PROFILE="${DBT_PROFILE:-dp_shelf_warmers}"
 TARGET="${DBT_TARGET:-dev}"
-CONTRACT="${CONTRACT:-datacontracts/shelf_warmers_v1.odcs.yaml}"
+CONTRACT="${CONTRACT:-models/output_ports/v1/shelf-warmers-v1.odcs.yaml}"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
 CONTRACT_PATH="${REPO_ROOT}/${CONTRACT}"

@@ -1,6 +1,6 @@
-{{ config(materialized='table', schema='op_v1') }}
+{{ config(materialized='table', schema='op_shelf_warmers_v1') }}
 
--- Governed by datacontracts/shelf_warmers_v1.odcs.yaml (ODCS id: shelf-warmers-v1)
+-- Governed by models/output_ports/v1/shelf-warmers-v1.odcs.yaml (ODCS id: shelf-warmers-v1)
 --
 -- STOCK_UPDATES records stock-level snapshots per (SKU, LOCATION, TIMESTAMP). AMOUNT is
 -- always non-negative (contract: minimum 0), so a "sale" is inferred as an event whose

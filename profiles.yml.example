@@ -9,9 +9,9 @@ dp_shelf_warmers:
       role: <fill in>
       database: DP_SHELF_WARMERS
       warehouse: <fill in>
-      # Profile schema is the internal layer (staging, intermediate). The output
-      # port model overrides this via config(schema='op_v1'), landing in
-      # DP_SHELF_WARMERS_OP_V1 — the only schema the data contract / integration
-      # scan target.
+      # Profile schema is dbt's fallback default; with the `generate_schema_name`
+      # macro override in macros/get_custom_schema.sql, each layer overrides it:
+      #   staging/ + intermediate/  →  internal_dp_shelf_warmers
+      #   output_ports/v1/<table>   →  op_shelf_warmers_v1   (only public surface)
       schema: dp_shelf_warmers
       threads: 4

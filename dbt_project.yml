@@ -14,25 +14,32 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
-# Silence dbt's "Configuration paths exist in your dbt_project.yml file which do
-# not apply to any resources" warning for the staging/intermediate config blocks
-# below. Those blocks are kept as scaffolding so future stg_*/int_* models
-# inherit the materialization without re-declaring it; until someone adds the
-# first model in either directory, dbt rightly notices the config is unused.
-# UnusedResourceConfigPath is the dbt event-class name; see
-# https://docs.getdbt.com/reference/global-configs/warnings.
+# Silence two non-actionable dbt warnings:
+# - UnusedResourceConfigPath fires for the staging/intermediate config blocks
+#   below until the first stg_*/int_* model exists — kept as scaffolding so
+#   future models inherit the materialization without re-declaring it.
+# - CustomTopLevelKeyDeprecation fires for every ODCS file under
+#   models/output_ports/v<N>/ because dbt parses any YAML in model paths and
+#   doesn't recognize ODCS's `apiVersion` top-level key. ODCS contracts live
+#   next to the SQL they govern by convention; the warning is expected.
 flags:
   warn_error_options:
     silence:
       - UnusedResourceConfigPath
+      - CustomTopLevelKeyDeprecation
 
-# Schema layout follows https://www.entropy-data.com/learn/data-products-with-dbt :
-# staging and intermediate models stay in the profile's default schema (internal
-# to the data product); output port models override schema='op_v1' via inline
-# config(), landing in <profile_schema>_op_v1 — the only public surface.
+# Schema layout per dataproduct-builder-dbt's dataproduct-dbt skill. The
+# `generate_schema_name` macro in macros/get_custom_schema.sql takes `+schema:`
+# / `schema='...'` values literally instead of suffixing onto the target's
+# default schema. With that override:
+#   - staging/ + intermediate/  →  internal_dp_shelf_warmers
+#   - output_ports/v1/<table>   →  op_<output_port_id>_v1  (via inline config())
+# Consumers only see the output-port schema; the internal layer stays hidden.
 models:
   dp_shelf_warmers:
     staging:
       +materialized: view
+      +schema: internal_dp_shelf_warmers
     intermediate:
       +materialized: view
+      +schema: internal_dp_shelf_warmers

@@ -7,7 +7,7 @@ models:
       meta:
         data_contract:
           id: shelf-warmers-v1
-          file: datacontracts/shelf_warmers_v1.odcs.yaml
+          file: models/output_ports/v1/shelf-warmers-v1.odcs.yaml
         owner: fulfillment
       materialized: table
       contract:

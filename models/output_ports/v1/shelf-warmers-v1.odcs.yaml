@@ -54,4 +54,4 @@ servers:
     type: snowflake
     account: LMTRWXS-XN14859
     database: DP_SHELF_WARMERS
-    schema: DP_SHELF_WARMERS_OP_V1
+    schema: OP_SHELF_WARMERS_V1
