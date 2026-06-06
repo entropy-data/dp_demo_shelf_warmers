@@ -2,8 +2,6 @@ name: "Shelf Warmers Data Product"
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: "0 6 * * *"
 
 env:
   API: https://demo.entropy-data.com/api
