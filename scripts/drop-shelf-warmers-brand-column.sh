@@ -29,14 +29,27 @@ CONTRACT="${CONTRACT:-models/output_ports/v1/shelf-warmers-v1.odcs.yaml}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
 CONTRACT_PATH="${REPO_ROOT}/${CONTRACT}"
 
-# Credentials from the dbt profile.
-read -r ACCOUNT USER PASSWORD ROLE WAREHOUSE < <(
+# Credentials from the dbt profile. One value per line so paths may contain
+# spaces. Supports either password or key-pair (private_key_path) auth.
+{
+  read -r ACCOUNT
+  read -r USER
+  read -r ROLE
+  read -r WAREHOUSE
+  read -r PASSWORD
+  read -r PRIVATE_KEY_PATH
+} < <(
   python3 - "$PROFILE" "$TARGET" <<'PY'
 import sys, yaml, pathlib
 profile, target = sys.argv[1], sys.argv[2]
 cfg = yaml.safe_load(pathlib.Path.home().joinpath(".dbt", "profiles.yml").read_text())
 o = cfg[profile]["outputs"][target]
-print(o["account"], o["user"], o["password"], o["role"], o["warehouse"])
+print(o["account"])
+print(o["user"])
+print(o["role"])
+print(o["warehouse"])
+print(o.get("password", ""))
+print(o.get("private_key_path", ""))
 PY
 )
 
@@ -51,10 +64,24 @@ PY
 )
 
 FQTN="${DATABASE}.${SCHEMA}.SHELF_WARMERS"
-SQL="ALTER TABLE ${FQTN} DROP COLUMN BRAND;"
+SQL="ALTER TABLE ${FQTN} DROP COLUMN IF EXISTS BRAND;"
+
+# Build auth flags: prefer key-pair (private_key_path) over password.
+AUTH_FLAGS=()
+if [[ -n "$PRIVATE_KEY_PATH" ]]; then
+  AUTH_FLAGS=(--authenticator SNOWFLAKE_JWT --private-key-file "${PRIVATE_KEY_PATH/#\~/$HOME}")
+  AUTH_DESC="key-pair (${PRIVATE_KEY_PATH})"
+elif [[ -n "$PASSWORD" ]]; then
+  AUTH_FLAGS=(--password "$PASSWORD")
+  AUTH_DESC="password"
+else
+  echo "Error: profile '${PROFILE}' target '${TARGET}' has neither 'password' nor 'private_key_path'." >&2
+  exit 1
+fi
 
 echo "Target table : ${FQTN}"
 echo "Account/role : ${ACCOUNT} / ${ROLE}"
+echo "Auth         : ${AUTH_DESC}"
 echo "Statement    : ${SQL}"
 echo
 echo "WARNING: dropping a column is irreversible and deletes its data."
@@ -67,7 +94,7 @@ fi
 snow sql --temporary-connection \
   --account "$ACCOUNT" \
   --user "$USER" \
-  --password "$PASSWORD" \
+  "${AUTH_FLAGS[@]}" \
   --role "$ROLE" \
   --warehouse "$WAREHOUSE" \
   --database "$DATABASE" \
